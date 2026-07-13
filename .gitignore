@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.streamlit/secrets.toml
+
+# Data mentah tetap lokal sampai lisensi redistribusi terverifikasi.
+data/*.csv
+
+# Binary model tidak dipublikasikan; artifact JSON tetap dilacak.
+artifacts/models/
+*.joblib
+*.pkl
+
+.DS_Store
+Thumbs.db
+
