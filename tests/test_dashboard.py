@@ -67,3 +67,7 @@ def test_dashboard_uses_controlled_dark_telemetry_surfaces() -> None:
     assert "--canvas-root: #101010" in styles
     assert '[data-testid="stMainBlockContainer"]' in styles
     assert ".stAppDeployButton" in styles
+    assert ".st-key-match-selector" in styles
+    assert "grid-template-columns: repeat(2, minmax(0, 1fr))" in styles
+    assert ".stTextInput input, input, textarea" not in styles
+    assert '[data-testid="stMultiSelect"] input[role="combobox"]' in styles

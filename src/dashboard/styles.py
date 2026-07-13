@@ -93,6 +93,11 @@ hr {{ border-color: var(--hairline) !important; }}
   z-index: 999;
 }}
 .st-key-top-navigation > div {{ margin: 0 !important; }}
+.st-key-top-navigation > [data-testid="stElementContainer"],
+.st-key-match-selector > [data-testid="stElementContainer"] {{
+  width: 100% !important;
+  min-width: 0;
+}}
 .brand-lockup {{ display: flex; align-items: center; min-height: 72px; gap: 16px; }}
 .brand-mark {{
   display: grid;
@@ -109,6 +114,9 @@ hr {{ border-color: var(--hairline) !important; }}
 .brand-meta {{ color: var(--muted); font-weight: 500; }}
 .st-key-top-navigation [data-testid="stRadio"] {{ width: auto; }}
 .st-key-top-navigation [role="radiogroup"] {{ flex-wrap: nowrap; gap: 0 !important; }}
+.st-key-top-navigation [data-testid="stRadioOption"] > div > div > div:first-child {{
+  display: none;
+}}
 .st-key-top-navigation [role="radiogroup"] label {{
   min-height: 72px;
   padding: 0 16px !important;
@@ -127,6 +135,43 @@ hr {{ border-color: var(--hairline) !important; }}
   background: #1b1b1b;
 }}
 .st-key-top-navigation [data-testid="stWidgetLabel"] {{ display: none; }}
+
+/* Match selector is a segmented control, not a loose row of radio buttons. */
+.st-key-match-selector {{ margin-top: 0; }}
+.st-key-match-selector [data-testid="stRadio"] {{ width: 100%; }}
+.st-key-match-selector [role="radiogroup"] {{
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 !important;
+  width: 100%;
+  border-bottom: 1px solid var(--hairline);
+}}
+.st-key-match-selector [data-testid="stRadioOption"] {{
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  justify-content: center;
+  padding: 0 16px !important;
+  border-right: 1px solid var(--hairline);
+  border-radius: 0 !important;
+  background: var(--canvas);
+  color: var(--body) !important;
+}}
+.st-key-match-selector [data-testid="stRadioOption"]:last-child {{ border-right: 0; }}
+.st-key-match-selector [data-testid="stRadioOption"] > div > div > div:first-child {{
+  display: none;
+}}
+.st-key-match-selector [data-testid="stRadioOption"] p {{
+  color: inherit !important;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}}
+.st-key-match-selector [data-testid="stRadioOption"]:has(input:checked) {{
+  box-shadow: inset 0 -4px 0 var(--rosso);
+  background: var(--canvas-elevated);
+  color: var(--ink) !important;
+}}
 
 /* Editorial opening. */
 .broadcast-header {{
@@ -344,7 +389,7 @@ hr {{ border-color: var(--hairline) !important; }}
   color: var(--ink) !important;
 }}
 [data-baseweb="select"] > div, [data-baseweb="input"] > div,
-.stTextInput input, input, textarea {{
+[data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea {{
   min-height: 48px;
   border-color: var(--hairline) !important;
   border-radius: 0 !important;
@@ -355,6 +400,35 @@ hr {{ border-color: var(--hairline) !important; }}
 }}
 input::placeholder, textarea::placeholder {{ color: var(--muted) !important; opacity: 1; }}
 [data-baseweb="select"] *, [data-baseweb="input"] * {{ color: var(--ink) !important; }}
+
+/* Multiselect owns its internal search input; never inflate it like a text field. */
+[data-testid="stMultiSelect"] [data-baseweb="select"] > div {{
+  min-height: 56px;
+  height: auto;
+  align-items: flex-start;
+  padding: 7px 8px;
+}}
+[data-testid="stMultiSelect"] [data-baseweb="select"] > div > div:first-child {{
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 4px;
+  overflow: visible;
+}}
+[data-testid="stMultiSelect"] [data-baseweb="tag"] {{
+  flex: 0 0 auto;
+  max-width: 100%;
+  margin: 0;
+}}
+[data-testid="stMultiSelect"] input[role="combobox"] {{
+  width: 12px !important;
+  min-width: 12px !important;
+  min-height: 28px !important;
+  height: 28px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}}
 [data-baseweb="popover"], [role="listbox"], [role="option"] {{
   background: var(--canvas-elevated) !important;
   color: var(--ink) !important;
@@ -392,6 +466,10 @@ button:focus-visible, input:focus-visible, [role="radio"]:focus-visible,
 [data-baseweb="select"]:focus-within, .telemetry-table-wrap:focus-visible {{
   outline: 3px solid var(--focus) !important;
   outline-offset: 2px;
+}}
+[data-testid="stRadioOption"]:has(input:focus-visible) {{
+  outline: 3px solid var(--focus) !important;
+  outline-offset: -3px;
 }}
 
 .site-footer {{
@@ -437,17 +515,40 @@ button:focus-visible, input:focus-visible, [role="radio"]:focus-visible,
   [data-testid="stMainBlockContainer"] {{ padding: 0 16px 48px !important; }}
   .brand-meta {{ display: none; }}
   .brand-name {{ font-size: 11px; }}
-  .st-key-top-navigation [role="radiogroup"] label {{
-    padding: 0 8px !important;
-    font-size: 10px;
-    letter-spacing: .035em;
+  .brand-lockup {{ min-height: 64px; }}
+  .st-key-top-navigation [data-testid="stRadio"] {{ width: 100%; }}
+  .st-key-top-navigation [role="radiogroup"] {{
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    overflow: visible;
   }}
+  .st-key-top-navigation [role="radiogroup"] label {{
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    justify-content: center;
+    padding: 0 10px !important;
+    border-right: 1px solid var(--hairline);
+    font-size: 11px;
+    letter-spacing: .05em;
+  }}
+  .st-key-top-navigation [role="radiogroup"] label:nth-child(even) {{ border-right: 0; }}
   .broadcast-header h1 {{ font-size: 2.7rem !important; }}
   .broadcast-header p {{ font-size: 15px; }}
   .match-strip .team {{ font-size: 2.5rem; }}
   .telemetry-spec-grid {{ grid-template-columns: 1fr 1fr; }}
   .telemetry-spec {{ min-height: 132px; padding: 18px; }}
   .spec-value {{ font-size: 1.6rem; }}
+}}
+
+@media (max-width: 380px) {{
+  .st-key-match-selector [role="radiogroup"] {{ grid-template-columns: 1fr; }}
+  .st-key-match-selector [data-testid="stRadioOption"] {{
+    border-right: 0;
+    border-bottom: 1px solid var(--hairline);
+  }}
+  .st-key-match-selector [data-testid="stRadioOption"]:last-child {{ border-bottom: 0; }}
 }}
 
 @media (prefers-reduced-motion: reduce) {{

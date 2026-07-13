@@ -79,12 +79,13 @@ def render_prediction(predictions: dict) -> None:
         f"{match['home_team']} vs {match['away_team']}": match
         for match in predictions["matches"]
     }
-    selected_label = st.radio(
-        "Pilih semifinal",
-        options=list(match_options),
-        horizontal=True,
-        label_visibility="collapsed",
-    )
+    with st.container(key="match-selector"):
+        selected_label = st.radio(
+            "Pilih semifinal",
+            options=list(match_options),
+            horizontal=True,
+            label_visibility="collapsed",
+        )
     match = match_options[selected_label]
     st.markdown(
         f"""
