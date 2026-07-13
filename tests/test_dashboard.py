@@ -47,3 +47,23 @@ def test_ferrari_design_tokens_are_installed_and_applied() -> None:
         assert token.lower() in styles.lower()
         assert token.lower() in charts.lower()
     assert "top-navigation" in styles
+
+
+def test_dashboard_uses_controlled_dark_telemetry_surfaces() -> None:
+    root = Path(__file__).resolve().parents[1]
+    pages = (root / "src" / "dashboard" / "pages.py").read_text(encoding="utf-8")
+    components = (root / "src" / "dashboard" / "components.py").read_text(
+        encoding="utf-8"
+    )
+    styles = (root / "src" / "dashboard" / "styles.py").read_text(encoding="utf-8")
+
+    assert "st.metric(" not in pages
+    assert ".metric(" not in pages
+    assert "st.dataframe(" not in pages
+    assert "telemetry_specs" in pages
+    assert "telemetry_table" in pages
+    assert "telemetry-spec-grid" in components
+    assert "telemetry-table-wrap" in components
+    assert "--canvas-root: #101010" in styles
+    assert '[data-testid="stMainBlockContainer"]' in styles
+    assert ".stAppDeployButton" in styles

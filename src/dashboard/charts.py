@@ -6,12 +6,14 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 
+ROOT = "#101010"
 CANVAS = "#181818"
 ELEVATED = "#303030"
 ROSSO = "#DA291C"
-INK = "#FFFFFF"
-BODY = "#969696"
-MUTED = "#666666"
+INK = "#F5F5F3"
+BODY = "#C7C7C5"
+MUTED = "#8A8A88"
+SILVER = "#B8B8B5"
 
 
 def _layout(fig: go.Figure, height: int = 360) -> go.Figure:
@@ -19,13 +21,25 @@ def _layout(fig: go.Figure, height: int = 360) -> go.Figure:
         height=height,
         margin=dict(l=18, r=18, t=48, b=20),
         paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor=CANVAS,
+        plot_bgcolor=ROOT,
         font=dict(family="FerrariSans, WC Sans, sans-serif", color=INK),
         hoverlabel=dict(font_family="WC Data, monospace"),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0),
     )
-    fig.update_xaxes(gridcolor=ELEVATED, zerolinecolor=ELEVATED, linecolor=ELEVATED)
-    fig.update_yaxes(gridcolor=ELEVATED, zerolinecolor=ELEVATED, linecolor=ELEVATED)
+    fig.update_xaxes(
+        gridcolor=ELEVATED,
+        zerolinecolor=ELEVATED,
+        linecolor=ELEVATED,
+        tickfont=dict(color=BODY),
+        title_font=dict(color=BODY),
+    )
+    fig.update_yaxes(
+        gridcolor=ELEVATED,
+        zerolinecolor=ELEVATED,
+        linecolor=ELEVATED,
+        tickfont=dict(color=BODY),
+        title_font=dict(color=BODY),
+    )
     return fig
 
 
@@ -39,7 +53,7 @@ def score_heatmap(match: dict) -> go.Figure:
             x=labels,
             y=labels,
             colorscale=[
-                [0.0, CANVAS],
+                [0.0, ROOT],
                 [0.35, ELEVATED],
                 [0.72, "#781A14"],
                 [1.0, ROSSO],
@@ -73,7 +87,7 @@ def outcome_chart(match: dict) -> go.Figure:
             x=np.asarray(values) * 100,
             y=labels,
             orientation="h",
-            marker_color=[INK, MUTED, ROSSO],
+            marker_color=[SILVER, "#5A5A58", ROSSO],
             text=[f"{value:.1%}" for value in values],
             textposition="inside",
             hovertemplate="%{y}: %{x:.1f}%<extra></extra>",
@@ -88,7 +102,7 @@ def event_distribution_chart(match: dict, event_name: str) -> go.Figure:
     event = match["events"][event_name]
     fig = go.Figure()
     for side, label, color in (
-        ("home", match["home_team"], INK),
+        ("home", match["home_team"], SILVER),
         ("away", match["away_team"], ROSSO),
         ("total", "Total laga", BODY),
     ):
@@ -123,7 +137,7 @@ def comparison_chart(summary: pd.DataFrame, teams: list[str]) -> go.Figure:
         "Possession / 50": selected["avg_possession"] / 50.0,
     }
     fig = go.Figure()
-    colors = [ROSSO, INK, BODY, MUTED]
+    colors = [ROSSO, SILVER, BODY, MUTED]
     patterns = ["", "/", "x", "."]
     for index, row in selected.reset_index(drop=True).iterrows():
         fig.add_trace(
@@ -147,7 +161,7 @@ def fold_evaluation_chart(evaluation: dict) -> go.Figure:
     fig = go.Figure()
     for model, color in (
         ("smoothed_baseline", MUTED),
-        ("regularized_poisson", INK),
+        ("regularized_poisson", SILVER),
         ("poisson_dc_blend", ROSSO),
         ("dixon_coles", BODY),
     ):

@@ -1,4 +1,4 @@
-"""Ferrari-inspired tokens adapted to a local football telemetry dashboard."""
+"""High-contrast Ferrari race-control styling for the Streamlit dashboard."""
 
 from __future__ import annotations
 
@@ -30,97 +30,112 @@ def dashboard_css(project_root: Path) -> str:
 :root {{
   --rosso: #da291c;
   --rosso-active: #b01e0a;
+  --canvas-root: #101010;
   --canvas: #181818;
-  --canvas-elevated: #303030;
-  --canvas-light: #ffffff;
-  --surface-soft: #f7f7f7;
-  --ink: #ffffff;
-  --body: #969696;
-  --muted: #666666;
-  --hairline: #303030;
-  --hairline-light: #d2d2d2;
+  --canvas-elevated: #262626;
+  --canvas-raised: #303030;
+  --ink: #f5f5f3;
+  --body: #c7c7c5;
+  --muted: #969694;
+  --hairline: #3a3a38;
   --focus: #f6e500;
-  --info: #4c98b9;
 }}
 
+/* Hard reset: Streamlit must never leak a light surface into race control. */
+html, body, #root, .stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"] {{
+  background: var(--canvas-root) !important;
+  color: var(--ink) !important;
+}}
 html, body, [class*="css"] {{
   font-family: 'FerrariSans', 'WC Sans', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
 }}
-.stApp {{ color: var(--ink); background: var(--canvas); }}
-[data-testid="stHeader"] {{ background: rgba(24,24,24,.94); }}
-[data-testid="stToolbar"] {{ color: var(--ink); }}
-[data-testid="stAppViewContainer"] > .main .block-container {{
-  max-width: 1280px;
-  padding: 0 48px 96px;
+[data-testid="stMainBlockContainer"] {{
+  max-width: 1440px !important;
+  padding: 0 64px 96px !important;
 }}
+[data-testid="stHeader"] {{ height: 0 !important; background: transparent !important; }}
+[data-testid="stToolbar"], [data-testid="stDecoration"], .stAppDeployButton,
+[data-testid="manage-app-button"], #MainMenu, footer {{ display: none !important; }}
 [data-testid="stSidebar"] {{ display: none; }}
 
 h1, h2, h3 {{
-  color: var(--ink);
+  color: var(--ink) !important;
   font-family: 'FerrariSans', 'WC Sans', system-ui, sans-serif;
   font-weight: 500 !important;
-  letter-spacing: -0.01em;
+  letter-spacing: -.015em;
 }}
-h1 {{ font-size: clamp(3.1rem, 7vw, 5rem) !important; line-height: 1.05 !important; }}
-h2 {{ font-size: clamp(2rem, 4vw, 2.25rem) !important; margin-top: 64px !important; }}
+h1 {{ font-size: clamp(3.2rem, 7vw, 5.5rem) !important; line-height: .98 !important; }}
+h2 {{ font-size: clamp(1.9rem, 4vw, 2.5rem) !important; margin-top: 72px !important; }}
 h3 {{ font-size: 1.625rem !important; }}
-p, li, [data-testid="stCaptionContainer"] {{ color: var(--body); line-height: 1.5; }}
-code, [data-testid="stMetricValue"], .data-label {{ font-family: 'WC Data', monospace !important; }}
+[data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li,
+[data-testid="stCaptionContainer"],
+[data-testid="stWidgetLabel"] p {{ color: var(--body) !important; line-height: 1.55; }}
+[data-testid="stCaptionContainer"] {{ font-size: 13px; }}
+code, .data-label, .spec-value, .telemetry-table {{ font-family: 'WC Data', monospace !important; }}
 a {{ color: var(--ink); text-decoration-color: var(--rosso); text-underline-offset: 4px; }}
 hr {{ border-color: var(--hairline) !important; }}
 
-/* Top navigation: the 64px dark precision bar from DESIGN.md. */
+/* 64px control rail. */
 .st-key-top-navigation {{
-  min-height: 64px;
+  min-height: 72px;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 32px;
   border-bottom: 1px solid var(--hairline);
-  background: var(--canvas);
+  background: rgba(16,16,16,.97);
   position: sticky;
   top: 0;
   z-index: 999;
 }}
 .st-key-top-navigation > div {{ margin: 0 !important; }}
-.brand-lockup {{ display: flex; align-items: center; min-height: 64px; gap: 16px; }}
+.brand-lockup {{ display: flex; align-items: center; min-height: 72px; gap: 16px; }}
 .brand-mark {{
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
   background: var(--rosso);
-  color: var(--ink);
+  color: #fff;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: .08em;
 }}
-.brand-name, .brand-meta {{ font-size: 12px; font-weight: 600; letter-spacing: .1em; }}
-.brand-meta {{ color: var(--body); font-weight: 400; }}
+.brand-name, .brand-meta {{ color: var(--ink); font-size: 12px; font-weight: 700; letter-spacing: .1em; }}
+.brand-meta {{ color: var(--muted); font-weight: 500; }}
 .st-key-top-navigation [data-testid="stRadio"] {{ width: auto; }}
 .st-key-top-navigation [role="radiogroup"] {{ flex-wrap: nowrap; gap: 0 !important; }}
 .st-key-top-navigation [role="radiogroup"] label {{
-  min-height: 64px;
+  min-height: 72px;
   padding: 0 16px !important;
   border-bottom: 3px solid transparent;
   border-radius: 0 !important;
+  color: var(--body) !important;
   text-transform: uppercase;
   letter-spacing: .065em;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
 }}
+.st-key-top-navigation [role="radiogroup"] label p {{ color: inherit !important; }}
 .st-key-top-navigation [role="radiogroup"] label:has(input:checked) {{
   border-bottom-color: var(--rosso);
-  background: transparent;
+  color: var(--ink) !important;
+  background: #1b1b1b;
 }}
 .st-key-top-navigation [data-testid="stWidgetLabel"] {{ display: none; }}
 
-/* Cinematic editorial opening; actual match telemetry replaces licensed photography. */
+/* Editorial opening. */
 .broadcast-header {{
   position: relative;
-  padding: 96px 0 64px;
-  margin: 0;
+  padding: 112px 0 72px;
   border-bottom: 1px solid var(--hairline);
+  background:
+    linear-gradient(105deg, rgba(218,41,28,.10), transparent 35%),
+    repeating-linear-gradient(90deg, transparent 0, transparent 159px, rgba(255,255,255,.025) 160px);
   overflow: hidden;
 }}
 .broadcast-header::after {{
@@ -128,59 +143,57 @@ hr {{ border-color: var(--hairline) !important; }}
   position: absolute;
   right: 0;
   bottom: 0;
-  width: 96px;
+  width: 112px;
   height: 6px;
   background: var(--rosso);
 }}
 .broadcast-kicker {{
-  color: var(--rosso);
+  color: var(--rosso) !important;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .1em;
+  font-weight: 800;
+  letter-spacing: .14em;
   text-transform: uppercase;
   margin-bottom: 24px;
 }}
 .broadcast-header h1 {{ max-width: 12ch; margin: 0; }}
-.broadcast-header p {{ max-width: 62ch; margin: 24px 0 0; font-size: 16px; }}
+.broadcast-header p {{ color: var(--body) !important; max-width: 68ch; margin: 28px 0 0; font-size: 17px; }}
 
-/* Match hero: one red timing line is the visual signature. */
+/* Match timing board. */
 .match-strip {{
   position: relative;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: end;
   gap: 32px;
-  min-height: 220px;
-  padding: 64px 0 32px;
+  min-height: 240px;
+  padding: 72px 0 36px;
   border-bottom: 1px solid var(--hairline);
-  background:
-    linear-gradient(115deg, rgba(255,255,255,.035), transparent 42%),
-    var(--canvas);
+  background: linear-gradient(115deg, rgba(255,255,255,.035), transparent 42%);
 }}
 .match-strip::before {{
   content: '';
   position: absolute;
   left: 50%;
-  top: 24px;
-  bottom: 24px;
+  top: 32px;
+  bottom: 32px;
   width: 2px;
   background: var(--rosso);
 }}
 .match-strip .team {{
   color: var(--ink);
-  font-size: clamp(2.5rem, 6vw, 4.5rem);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -.02em;
+  font-size: clamp(2.5rem, 6vw, 4.8rem);
+  font-weight: 600;
+  line-height: .95;
+  letter-spacing: -.03em;
 }}
 .match-strip .team:last-child {{ text-align: right; }}
 .match-strip .versus {{
   z-index: 1;
-  padding: 8px 12px;
+  padding: 9px 13px;
   background: var(--rosso);
-  color: var(--ink);
+  color: #fff;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: .1em;
   text-transform: uppercase;
 }}
@@ -189,33 +202,31 @@ hr {{ border-color: var(--hairline) !important; }}
   font-family: 'WC Data', monospace;
   font-size: 12px;
   letter-spacing: .04em;
-  padding: 16px 0 48px;
+  padding: 18px 0 48px;
   text-transform: uppercase;
 }}
 
-/* Sharp technical spec cells; no generic card shadows. */
 .team-panel {{
   min-height: 240px;
   padding: 32px 0;
   border-top: 1px solid var(--hairline);
   border-bottom: 1px solid var(--hairline);
-  background: transparent;
 }}
 .team-panel.away {{ text-align: right; }}
-.team-panel .name {{ font-size: 18px; font-weight: 700; }}
+.team-panel .name {{ color: var(--ink); font-size: 18px; font-weight: 800; }}
 .team-panel .number {{
   color: var(--ink);
+  font-family: 'WC Data', monospace;
   font-size: clamp(2.8rem, 5vw, 4.8rem);
   font-weight: 700;
   line-height: 1;
-  letter-spacing: -.02em;
   margin-top: 24px;
 }}
 .team-panel.away .number {{ color: var(--rosso); }}
 .team-panel .label {{
   color: var(--body);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: .1em;
   margin-top: 8px;
   text-transform: uppercase;
@@ -233,59 +244,152 @@ hr {{ border-color: var(--hairline) !important; }}
 .score-chip:first-child {{ border-left: 4px solid var(--rosso); }}
 .score-chip strong {{ color: var(--ink); font-family: 'WC Data'; font-size: 18px; }}
 .score-chip span {{ color: var(--body); font-size: 12px; margin-top: 4px; }}
-.section-rule {{ border-top: 1px solid var(--hairline); margin: 64px 0 24px; }}
+.section-rule {{ border-top: 1px solid var(--hairline); margin: 72px 0 24px; }}
 .confidence-low {{
   display: inline-block;
-  color: var(--ink);
+  color: #fff;
   background: var(--rosso);
-  padding: 6px 12px;
+  padding: 7px 12px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: .1em;
 }}
 
-[data-testid="stMetric"] {{
-  min-height: 124px;
-  padding: 24px 0;
+/* Our own metric system: explicit contrast, no inherited Streamlit colors. */
+.telemetry-spec-grid {{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  margin: 20px 0 32px;
   border-top: 1px solid var(--hairline);
-  border-bottom: 1px solid var(--hairline);
-  border-radius: 0;
-  background: transparent;
+  border-left: 1px solid var(--hairline);
+  background: var(--canvas);
 }}
-[data-testid="stMetricLabel"] {{ color: var(--body); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }}
-[data-testid="stMetricValue"] {{ color: var(--ink); font-size: clamp(1.8rem, 4vw, 3rem); }}
-[data-testid="stMetricDelta"] {{ color: var(--rosso); }}
+.telemetry-spec {{
+  min-width: 0;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 24px;
+  border-right: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  background: linear-gradient(135deg, rgba(255,255,255,.022), transparent 58%);
+}}
+.telemetry-spec.is-accent {{ box-shadow: inset 0 4px 0 var(--rosso); }}
+.spec-label {{
+  color: var(--body);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}}
+.spec-value {{
+  display: block;
+  color: var(--ink);
+  font-size: clamp(1.65rem, 2.8vw, 2.65rem);
+  font-weight: 700;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}}
+.telemetry-spec.is-accent .spec-value {{ color: var(--rosso); }}
+.spec-note {{ color: var(--muted); font-size: 12px; line-height: 1.35; }}
 
-/* Streamlit controls mapped to Ferrari's sharp form and button vocabulary. */
+/* Controlled tables replace Streamlit's white canvas grid. */
+.telemetry-table-wrap {{
+  width: 100%;
+  max-height: 560px;
+  overflow: auto;
+  border: 1px solid var(--hairline);
+  background: var(--canvas);
+  scrollbar-color: var(--rosso) var(--canvas-raised);
+}}
+.telemetry-table {{ width: 100%; border-collapse: collapse; font-size: 13px; white-space: nowrap; }}
+.telemetry-table th {{
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 15px 16px;
+  border-right: 1px solid var(--hairline);
+  border-bottom: 2px solid var(--rosso);
+  background: var(--canvas-raised);
+  color: var(--ink);
+  text-align: left;
+  font-family: 'WC Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}}
+.telemetry-table td {{
+  padding: 14px 16px;
+  border-right: 1px solid #2d2d2b;
+  border-bottom: 1px solid #2d2d2b;
+  background: var(--canvas);
+  color: var(--body);
+}}
+.telemetry-table tr:nth-child(even) td {{ background: #1d1d1d; }}
+.telemetry-table tbody tr:hover td {{ background: #272727; color: var(--ink); }}
+.table-overflow, .telemetry-empty {{
+  padding: 12px 16px;
+  border: 1px solid var(--hairline);
+  border-top: 0;
+  background: var(--canvas-elevated);
+  color: var(--body);
+  font-size: 12px;
+}}
+
+/* BaseWeb and residual Streamlit surfaces. */
+[data-testid="stMetric"], [data-testid="stDataFrame"], [data-testid="stTable"] {{
+  background: var(--canvas) !important;
+  color: var(--ink) !important;
+}}
+[data-baseweb="select"] > div, [data-baseweb="input"] > div,
+.stTextInput input, input, textarea {{
+  min-height: 48px;
+  border-color: var(--hairline) !important;
+  border-radius: 0 !important;
+  background: var(--canvas-elevated) !important;
+  color: var(--ink) !important;
+  caret-color: var(--rosso) !important;
+  -webkit-text-fill-color: var(--ink) !important;
+}}
+input::placeholder, textarea::placeholder {{ color: var(--muted) !important; opacity: 1; }}
+[data-baseweb="select"] *, [data-baseweb="input"] * {{ color: var(--ink) !important; }}
+[data-baseweb="popover"], [role="listbox"], [role="option"] {{
+  background: var(--canvas-elevated) !important;
+  color: var(--ink) !important;
+}}
+[role="option"]:hover, [aria-selected="true"][role="option"] {{ background: var(--canvas-raised) !important; }}
+[data-testid="stRadio"] [role="radiogroup"] label {{ color: var(--body) !important; }}
+[data-testid="stRadio"] [role="radiogroup"] label p {{ color: inherit !important; }}
+[data-testid="stExpander"] {{
+  border: 1px solid var(--hairline) !important;
+  border-radius: 0 !important;
+  background: var(--canvas) !important;
+}}
+[data-testid="stExpander"] summary, [data-testid="stExpander"] summary p {{ color: var(--ink) !important; }}
+[data-testid="stAlert"] {{
+  border-radius: 0 !important;
+  border: 1px solid var(--hairline) !important;
+  border-left: 4px solid var(--rosso) !important;
+  background: var(--canvas-elevated) !important;
+  color: var(--ink) !important;
+}}
+[data-testid="stAlert"] p, [data-testid="stAlert"] div {{ color: var(--ink) !important; }}
 .stButton > button, .stDownloadButton > button {{
   min-height: 48px;
   border: 1px solid var(--ink);
   border-radius: 0;
   background: transparent;
   color: var(--ink);
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
   letter-spacing: .1em;
   text-transform: uppercase;
 }}
-.stButton > button[kind="primary"] {{ border-color: var(--rosso); background: var(--rosso); }}
-[data-baseweb="select"] > div, [data-baseweb="input"] > div, .stTextInput input {{
-  min-height: 48px;
-  border-color: var(--hairline) !important;
-  border-radius: 4px !important;
-  background: var(--canvas) !important;
-  color: var(--ink) !important;
-}}
-[data-baseweb="popover"], [role="listbox"] {{ background: var(--canvas-elevated) !important; }}
-[data-testid="stRadio"] [role="radiogroup"] label {{
-  border-radius: 0 !important;
-}}
-[data-testid="stDataFrame"], [data-testid="stTable"] {{ border: 1px solid var(--hairline); }}
-[data-testid="stExpander"] {{ border: 1px solid var(--hairline); border-radius: 0; background: transparent; }}
-[data-testid="stAlert"] {{ border-radius: 0; border-left-width: 4px; }}
-
+.stButton > button:hover {{ border-color: var(--rosso); color: #fff; background: var(--rosso); }}
 button:focus-visible, input:focus-visible, [role="radio"]:focus-visible,
-[data-baseweb="select"]:focus-within {{
+[data-baseweb="select"]:focus-within, .telemetry-table-wrap:focus-visible {{
   outline: 3px solid var(--focus) !important;
   outline-offset: 2px;
 }}
@@ -295,7 +399,7 @@ button:focus-visible, input:focus-visible, [role="radio"]:focus-visible,
   grid-template-columns: 1fr auto 1fr;
   gap: 24px;
   align-items: center;
-  margin-top: 96px;
+  margin-top: 112px;
   padding: 48px 0 64px;
   border-top: 1px solid var(--hairline);
   color: var(--body);
@@ -307,26 +411,43 @@ button:focus-visible, input:focus-visible, [role="radio"]:focus-visible,
 .site-footer span:last-child {{ text-align: right; }}
 
 @media (max-width: 900px) {{
-  [data-testid="stAppViewContainer"] > .main .block-container {{ padding: 0 24px 64px; }}
+  [data-testid="stMainBlockContainer"] {{ padding: 0 24px 64px !important; }}
   .st-key-top-navigation {{ position: static; grid-template-columns: 1fr; gap: 0; }}
   .brand-lockup {{ border-bottom: 1px solid var(--hairline); }}
   .st-key-top-navigation [role="radiogroup"] {{ overflow-x: auto; }}
-  .st-key-top-navigation [role="radiogroup"] label {{ min-height: 48px; padding: 0 12px !important; }}
-  .broadcast-header {{ padding: 64px 0 48px; }}
-  .match-strip {{ min-height: 0; grid-template-columns: 1fr; align-items: start; padding: 48px 0 32px; }}
+  .st-key-top-navigation [role="radiogroup"] label {{
+    min-height: 52px;
+    flex: 0 0 auto;
+    padding: 0 12px !important;
+    white-space: nowrap !important;
+  }}
+  .st-key-top-navigation [role="radiogroup"] label p {{ white-space: nowrap !important; }}
+  .broadcast-header {{ padding: 72px 0 56px; }}
+  .match-strip {{ min-height: 0; grid-template-columns: 1fr; align-items: start; padding: 56px 0 36px; }}
   .match-strip::before {{ left: 0; top: 24px; bottom: 24px; }}
   .match-strip .team, .match-strip .team:last-child {{ padding-left: 24px; text-align: left; }}
   .match-strip .versus {{ justify-self: start; margin-left: 24px; }}
   .team-panel, .team-panel.away {{ min-height: auto; text-align: left; }}
+  .telemetry-spec-grid {{ grid-template-columns: repeat(2, minmax(0, 1fr)); }}
   .site-footer {{ grid-template-columns: 1fr; }}
   .site-footer span:nth-child(2), .site-footer span:last-child {{ text-align: left; }}
 }}
 
 @media (max-width: 520px) {{
+  [data-testid="stMainBlockContainer"] {{ padding: 0 16px 48px !important; }}
   .brand-meta {{ display: none; }}
   .brand-name {{ font-size: 11px; }}
-  .broadcast-header h1 {{ font-size: 2.5rem !important; }}
-  .match-strip .team {{ font-size: 2.4rem; }}
+  .st-key-top-navigation [role="radiogroup"] label {{
+    padding: 0 8px !important;
+    font-size: 10px;
+    letter-spacing: .035em;
+  }}
+  .broadcast-header h1 {{ font-size: 2.7rem !important; }}
+  .broadcast-header p {{ font-size: 15px; }}
+  .match-strip .team {{ font-size: 2.5rem; }}
+  .telemetry-spec-grid {{ grid-template-columns: 1fr 1fr; }}
+  .telemetry-spec {{ min-height: 132px; padding: 18px; }}
+  .spec-value {{ font-size: 1.6rem; }}
 }}
 
 @media (prefers-reduced-motion: reduce) {{

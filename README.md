@@ -18,7 +18,7 @@ Pipeline modeling leakage-safe dan dashboard lokal berbahasa Indonesia untuk mem
   <img alt="NumPy 2.5.1" src="https://img.shields.io/badge/NumPy-2.5.1-013243?style=flat-square&logo=numpy&logoColor=white">
   <img alt="scikit-learn 1.9.0" src="https://img.shields.io/badge/scikit--learn-1.9.0-F7931E?style=flat-square&logo=scikitlearn&logoColor=white">
   <img alt="statsmodels 0.14.6" src="https://img.shields.io/badge/statsmodels-0.14.6-4051B5?style=flat-square">
-  <img alt="pytest" src="https://img.shields.io/badge/tests-14_passed-DA291C?style=flat-square&logo=pytest&logoColor=white">
+  <img alt="pytest" src="https://img.shields.io/badge/tests-15_passed-DA291C?style=flat-square&logo=pytest&logoColor=white">
   <img alt="Bahasa Indonesia" src="https://img.shields.io/badge/UI-Bahasa_Indonesia-DA291C?style=flat-square">
   <img alt="Local first" src="https://img.shields.io/badge/runtime-local_first-181818?style=flat-square">
 </p>
@@ -213,10 +213,11 @@ world-cup-predict/
 │   ├── training.py               # Orkestrasi artifact dan validasi
 │   └── dashboard/
 │       ├── charts.py             # Plotly figures
+│       ├── components.py         # Telemetry cells dan dark data tables
 │       ├── data_access.py        # Loader dan agregasi statistik
 │       ├── pages.py              # Empat halaman dashboard
 │       └── styles.py             # Tema broadcast dan font offline
-├── tests/                         # 13 contract, modeling, dan smoke tests
+├── tests/                         # 15 contract, modeling, visual guard, dan smoke tests
 ├── pyproject.toml
 └── requirements.txt
 ```
@@ -417,13 +418,16 @@ Validasi akhir memastikan:
 Arah visual memakai sistem cinematic editorial dari preset Ferrari yang dipasang
 melalui `getdesign` dan didokumentasikan di [`DESIGN.md`](DESIGN.md):
 
-- near-black canvas `#181818` sebagai panggung utama;
+- race-control floor `#101010` dengan band editorial `#181818`;
 - Rosso Corsa `#DA291C` sebagai satu-satunya aksen brand yang dipakai terbatas;
-- elevated graphite `#303030` untuk technical surfaces;
-- pure white `#FFFFFF` dan telemetry gray `#969696` untuk hierarki data;
+- graphite `#262626` dan `#303030` untuk technical surfaces tanpa panel putih;
+- off-white `#F5F5F3`, body gray `#C7C7C5`, dan muted gray `#969694`
+  sebagai tinta berkontras tinggi;
 - sharp corners, hairline separators, dan spacing ladder berbasis 8px;
 - timing line merah yang membelah hero matchup dan menuju matriks skor;
-- top navigation 64px menggantikan sidebar dashboard generik;
+- top navigation menggantikan sidebar dan toolbar dashboard generik;
+- metric dan tabel native Streamlit diganti telemetry cells dan dark HTML tables
+  agar warna teks maupun permukaan konsisten di seluruh halaman;
 - FerrariSans digunakan bila tersedia, dengan Ubuntu Sans offline sebagai fallback
   berlisensi karena FerrariSans tidak didistribusikan oleh proyek.
 

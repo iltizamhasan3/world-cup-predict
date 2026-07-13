@@ -15,6 +15,7 @@ from .charts import (
     outcome_chart,
     score_heatmap,
 )
+from .components import telemetry_specs, telemetry_table
 from .data_access import (
     build_player_frame,
     build_team_summary,
@@ -114,7 +115,7 @@ def render_prediction(predictions: dict) -> None:
     with center:
         st.plotly_chart(
             score_heatmap(match),
-            use_container_width=True,
+            width="stretch",
             config=PLOT_CONFIG,
             key=f"score-{match['match_id']}",
         )
@@ -146,14 +147,27 @@ def render_prediction(predictions: dict) -> None:
     with chart_column:
         st.plotly_chart(
             outcome_chart(match),
-            use_container_width=True,
+            width="stretch",
             config=PLOT_CONFIG,
             key=f"outcome-{match['match_id']}",
         )
     with metric_column:
-        st.metric("Masuk adu penalti", f"{match['shootout_probability']:.1%}")
-        st.caption("Seri 90 menit × seri setelah simulasi extra time 30 menit.")
-        st.metric("Confidence", match["confidence"].upper())
+        telemetry_specs(
+            (
+                (
+                    "Masuk adu penalti",
+                    f"{match['shootout_probability']:.1%}",
+                    "Seri 90 menit × seri setelah simulasi extra time 30 menit",
+                    True,
+                ),
+                (
+                    "Confidence",
+                    match["confidence"].upper(),
+                    "Batas keyakinan model probabilistik",
+                    False,
+                ),
+            )
+        )
 
     st.markdown('<div class="section-rule"></div>', unsafe_allow_html=True)
     st.subheader("Distribusi kejadian pertandingan")
@@ -165,21 +179,26 @@ def render_prediction(predictions: dict) -> None:
         name for name, label in EVENT_LABELS.items() if label == selected_event_label
     )
     event = match["events"][event_name]
-    metric_columns = st.columns(3)
-    for column, side, label in zip(
-        metric_columns,
+    suffix = "%" if event_name == "possession" else ""
+    event_specs = []
+    for side, label in zip(
         ("home", "away", "total"),
         (match["home_team"], match["away_team"], "Total laga"),
         strict=True,
     ):
-        with column:
-            suffix = "%" if event_name == "possession" else ""
-            st.metric(label, f"{event[side]['expected']:.1f}{suffix}")
-            low, high = event[side]["interval_80"]
-            st.caption(f"Interval 80%: {low:g}–{high:g}")
+        low, high = event[side]["interval_80"]
+        event_specs.append(
+            (
+                label,
+                f"{event[side]['expected']:.1f}{suffix}",
+                f"Interval 80%: {low:g}–{high:g}",
+                side == "away",
+            )
+        )
+    telemetry_specs(event_specs)
     st.plotly_chart(
         event_distribution_chart(match, event_name),
-        use_container_width=True,
+        width="stretch",
         config=PLOT_CONFIG,
         key=f"event-{match['match_id']}-{event_name}",
     )
@@ -216,40 +235,40 @@ def render_teams(raw: dict[str, pd.DataFrame] | None, data_dir: Path) -> None:
     if selected:
         st.plotly_chart(
             comparison_chart(summary, selected),
-            use_container_width=True,
+            width="stretch",
             config=PLOT_CONFIG,
             key="team-comparison",
         )
 
     profile_name = st.selectbox("Buka profil tim", options=summary["team"].tolist())
     profile = summary.loc[summary["team"] == profile_name].iloc[0]
-    first = st.columns(5)
-    values = (
-        ("Form", f"{profile.wins}M {profile.draws}S {profile.losses}K"),
-        ("Gol / xG", f"{profile.goals_for:.0f} / {profile.xg_for:.1f}"),
-        ("Shots", f"{profile.shots:.0f}"),
-        ("Possession", f"{profile.avg_possession:.1f}%"),
-        ("Ranking FIFA", f"#{profile.ranking}"),
+    telemetry_specs(
+        (
+            ("Form", f"{profile.wins}M {profile.draws}S {profile.losses}K", "Menang · Seri · Kalah", True),
+            ("Gol / xG", f"{profile.goals_for:.0f} / {profile.xg_for:.1f}", "Produksi turnamen", False),
+            ("Shots", f"{profile.shots:.0f}", "Total percobaan", False),
+            ("Possession", f"{profile.avg_possession:.1f}%", "Rata-rata penguasaan", False),
+            ("Ranking FIFA", f"#{profile.ranking}", "Pra-turnamen", False),
+            ("Corners", f"{profile.corners:.0f}", "Total turnamen", False),
+            ("Foul", f"{profile.fouls:.0f}", "Total pelanggaran", False),
+            ("Offside", f"{profile.offsides:.0f}", "Total offside", False),
+            ("Kartu", f"{profile.yellow_cards:.0f}K / {profile.red_cards:.0f}M", "Kuning / Merah", False),
+            ("Nilai skuad", format_eur(float(profile.squad_value_eur)), "Estimasi pasar", True),
+        )
     )
-    for column, (label, value) in zip(first, values, strict=True):
-        column.metric(label, value)
-    second = st.columns(5)
-    values = (
-        ("Corners", f"{profile.corners:.0f}"),
-        ("Foul", f"{profile.fouls:.0f}"),
-        ("Offside", f"{profile.offsides:.0f}"),
-        ("Kartu", f"{profile.yellow_cards:.0f}K / {profile.red_cards:.0f}M"),
-        ("Nilai skuad", format_eur(float(profile.squad_value_eur))),
-    )
-    for column, (label, value) in zip(second, values, strict=True):
-        column.metric(label, value)
 
     st.subheader("Form lima laga terakhir")
     form = team_form(raw, int(profile.team_id))
-    st.dataframe(
-        form[["tanggal", "lawan", "venue", "skor", "hasil"]],
-        use_container_width=True,
-        hide_index=True,
+    telemetry_table(
+        form[["tanggal", "lawan", "venue", "skor", "hasil"]].rename(
+            columns={
+                "tanggal": "Tanggal",
+                "lawan": "Lawan",
+                "venue": "Venue",
+                "skor": "Skor",
+                "hasil": "Hasil",
+            }
+        )
     )
 
     st.subheader("Seluruh tim")
@@ -284,7 +303,7 @@ def render_teams(raw: dict[str, pd.DataFrame] | None, data_dir: Path) -> None:
             "red_cards": "Merah",
         }
     )
-    st.dataframe(display, use_container_width=True, hide_index=True, height=520)
+    telemetry_table(display, max_rows=48)
 
 
 def render_players(raw: dict[str, pd.DataFrame] | None, data_dir: Path) -> None:
@@ -329,32 +348,29 @@ def render_players(raw: dict[str, pd.DataFrame] | None, data_dir: Path) -> None:
     player = filtered.loc[filtered["player_id"] == player_id].iloc[0]
     st.subheader(player.player_name)
     st.caption(f"{player.team_name} · {player.position} · {player.club_team}")
-    profile_columns = st.columns(5)
-    profile_values = (
-        ("Usia", f"{player.age:.0f}"),
-        ("Caps", f"{player.caps:.0f}"),
-        ("Nilai", format_eur(float(player.market_value_eur))),
-        ("Menit", f"{player.minutes_played:.0f}"),
-        ("Starter", f"{player.matches_started:.0f}"),
+    telemetry_specs(
+        (
+            ("Usia", f"{player.age:.0f}", "Tahun", False),
+            ("Caps", f"{player.caps:.0f}", "Penampilan internasional", False),
+            ("Nilai", format_eur(float(player.market_value_eur)), "Estimasi pasar", True),
+            ("Menit", f"{player.minutes_played:.0f}", "Menit turnamen", False),
+            ("Starter", f"{player.matches_started:.0f}", "Masuk starting XI", False),
+            ("Gol", f"{player.tournament_goals:.0f}", "Kontribusi turnamen", True),
+            ("Assist", f"{player.assists:.0f}", "Kontribusi turnamen", False),
+            ("Shots", f"{player.shots:.0f}" if pd.notna(player.shots) else "—", "Total percobaan", False),
+            ("Kuning", f"{player.yellow_cards:.0f}", "Disiplin", False),
+            ("Merah", f"{player.red_cards:.0f}", "Disiplin", False),
+        )
     )
-    for column, (label, value) in zip(profile_columns, profile_values, strict=True):
-        column.metric(label, value)
-    contribution = st.columns(5)
-    contribution_values = (
-        ("Gol", f"{player.tournament_goals:.0f}"),
-        ("Assist", f"{player.assists:.0f}"),
-        ("Shots", f"{player.shots:.0f}" if pd.notna(player.shots) else "—"),
-        ("Kuning", f"{player.yellow_cards:.0f}"),
-        ("Merah", f"{player.red_cards:.0f}"),
-    )
-    for column, (label, value) in zip(contribution, contribution_values, strict=True):
-        column.metric(label, value)
     if player.position == "GK":
         st.subheader("Catatan goalkeeper")
-        goalkeeping = st.columns(3)
-        goalkeeping[0].metric("Clean sheets", f"{player.clean_sheets:.0f}")
-        goalkeeping[1].metric("Saves", f"{player.saves:.0f}")
-        goalkeeping[2].metric("Gol kebobolan", f"{player.goals_conceded:.0f}")
+        telemetry_specs(
+            (
+                ("Clean sheets", f"{player.clean_sheets:.0f}", "Laga tanpa kebobolan", True),
+                ("Saves", f"{player.saves:.0f}", "Penyelamatan", False),
+                ("Gol kebobolan", f"{player.goals_conceded:.0f}", "Total turnamen", False),
+            )
+        )
 
     st.subheader("Daftar hasil filter")
     display = filtered[
@@ -375,6 +391,9 @@ def render_players(raw: dict[str, pd.DataFrame] | None, data_dir: Path) -> None:
         ]
     ].copy()
     display["age"] = display["age"].round(0)
+    display["market_value_eur"] = display["market_value_eur"].apply(
+        lambda value: format_eur(float(value))
+    )
     display = display.rename(
         columns={
             "player_name": "Pemain",
@@ -392,7 +411,7 @@ def render_players(raw: dict[str, pd.DataFrame] | None, data_dir: Path) -> None:
             "red_cards": "Merah",
         }
     )
-    st.dataframe(display, use_container_width=True, hide_index=True, height=500)
+    telemetry_table(display, max_rows=60)
 
 
 def render_evaluation(evaluation: dict) -> None:
@@ -405,12 +424,18 @@ def render_evaluation(evaluation: dict) -> None:
     selected = score["selected_model"]
     baseline_loss = score["aggregate"]["smoothed_baseline"]["exact_score_log_loss"]
     selected_loss = score["aggregate"][selected]["exact_score_log_loss"]
-    metrics = st.columns(4)
-    metrics[0].metric("Data cutoff", evaluation["data_cutoff"])
-    metrics[1].metric("Label 90 menit", evaluation["sample_size_90_minutes"])
-    metrics[2].metric("Model skor", selected.replace("_", " "))
-    metrics[3].metric(
-        "Perbaikan log loss", f"{(baseline_loss - selected_loss) / baseline_loss:.1%}"
+    telemetry_specs(
+        (
+            ("Data cutoff", evaluation["data_cutoff"], "Batas data training", False),
+            ("Label 90 menit", evaluation["sample_size_90_minutes"], "Laga Regular", False),
+            ("Model skor", selected.replace("_", " "), "Dipilih via OOF kronologis", True),
+            (
+                "Perbaikan log loss",
+                f"{(baseline_loss - selected_loss) / baseline_loss:.1%}",
+                "Dibanding baseline tersmoothing",
+                True,
+            ),
+        )
     )
     st.caption(
         f"Dikeluarkan dari target skor: {evaluation['excluded_from_score_target']['AET']} AET dan "
@@ -418,15 +443,17 @@ def render_evaluation(evaluation: dict) -> None:
     )
     st.plotly_chart(
         fold_evaluation_chart(evaluation),
-        use_container_width=True,
+        width="stretch",
         config=PLOT_CONFIG,
         key="evaluation-folds",
     )
 
     st.subheader("Metrik agregat model skor")
     score_table = pd.DataFrame(score["aggregate"]).T.reset_index(names="model")
-    score_table["dipilih"] = score_table["model"] == selected
-    st.dataframe(score_table, use_container_width=True, hide_index=True)
+    score_table["dipilih"] = (score_table["model"] == selected).map(
+        {True: "Ya", False: "Tidak"}
+    )
+    telemetry_table(score_table)
 
     st.subheader("Kalibrasi")
     st.write(
@@ -447,13 +474,13 @@ def render_evaluation(evaluation: dict) -> None:
             {
                 "target": EVENT_LABELS.get(target, target),
                 "model": result["selected_model"],
-                "fallback": result["fallback_used"],
+                "fallback": "Ya" if result["fallback_used"] else "Tidak",
                 "alasan": result.get("fallback_reason") or "Mengungguli baseline",
             }
             for target, result in evaluation["events"].items()
         ]
     )
-    st.dataframe(event_table, use_container_width=True, hide_index=True)
+    telemetry_table(event_table)
     st.write(
         f"Possession: ridge MAE {evaluation['possession']['ridge_mae']:.2f} poin vs "
         f"baseline {evaluation['possession']['baseline_mae']:.2f} poin. Prediksi dua tim "
@@ -467,4 +494,3 @@ def render_evaluation(evaluation: dict) -> None:
         "Red card dan VAR masing-masing hanya memiliki 13 kejadian. Angka tersebut memakai "
         "Beta smoothing dan bukan estimasi kekuatan khusus tim."
     )
-
