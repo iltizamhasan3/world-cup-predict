@@ -24,20 +24,27 @@ st.set_page_config(
     page_title="World Cup Predict",
     page_icon=None,
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 st.markdown(dashboard_css(ROOT), unsafe_allow_html=True)
 
-with st.sidebar:
-    st.markdown("## WORLD CUP\n### MODEL ROOM")
-    st.caption("Analisis probabilistik lokal · cutoff 12 Juli 2026")
+with st.container(key="top-navigation"):
+    st.markdown(
+        """
+        <div class="brand-lockup">
+          <span class="brand-mark">WCP</span>
+          <span class="brand-name">WORLD CUP PREDICT</span>
+          <span class="brand-meta">MODEL ROOM · 2026</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     page = st.radio(
         "Navigasi",
         ("Prediksi", "Tim", "Pemain", "Evaluasi"),
+        horizontal=True,
         label_visibility="collapsed",
     )
-    st.markdown("---")
-    st.caption("90 menit · extra time · shootout · event distributions")
 
 predictions_path = ARTIFACT_DIR / "predictions.json"
 evaluation_path = ARTIFACT_DIR / "evaluation.json"
@@ -63,3 +70,13 @@ else:
     else:
         render_evaluation(evaluation)
 
+st.markdown(
+    """
+    <footer class="site-footer">
+      <span>WORLD CUP PREDICT</span>
+      <span>90 MENIT · EXTRA TIME · SHOOTOUT · EVENT DISTRIBUTIONS</span>
+      <span>LOCAL-FIRST / DATA CUTOFF 12.07.2026</span>
+    </footer>
+    """,
+    unsafe_allow_html=True,
+)

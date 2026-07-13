@@ -18,9 +18,9 @@ Pipeline modeling leakage-safe dan dashboard lokal berbahasa Indonesia untuk mem
   <img alt="NumPy 2.5.1" src="https://img.shields.io/badge/NumPy-2.5.1-013243?style=flat-square&logo=numpy&logoColor=white">
   <img alt="scikit-learn 1.9.0" src="https://img.shields.io/badge/scikit--learn-1.9.0-F7931E?style=flat-square&logo=scikitlearn&logoColor=white">
   <img alt="statsmodels 0.14.6" src="https://img.shields.io/badge/statsmodels-0.14.6-4051B5?style=flat-square">
-  <img alt="pytest" src="https://img.shields.io/badge/tests-13_passed-0A7C75?style=flat-square&logo=pytest&logoColor=white">
-  <img alt="Bahasa Indonesia" src="https://img.shields.io/badge/UI-Bahasa_Indonesia-F4B942?style=flat-square">
-  <img alt="Local first" src="https://img.shields.io/badge/runtime-local_first-071B33?style=flat-square">
+  <img alt="pytest" src="https://img.shields.io/badge/tests-14_passed-DA291C?style=flat-square&logo=pytest&logoColor=white">
+  <img alt="Bahasa Indonesia" src="https://img.shields.io/badge/UI-Bahasa_Indonesia-DA291C?style=flat-square">
+  <img alt="Local first" src="https://img.shields.io/badge/runtime-local_first-181818?style=flat-square">
 </p>
 
 [Fitur](#fitur-utama) · [Hasil model](#snapshot-prediksi) · [Tech stack](#tech-stack) · [Instalasi](#instalasi) · [Training](#training-model) · [Dashboard](#menjalankan-dashboard) · [Evaluasi](#evaluasi-model)
@@ -192,6 +192,7 @@ Peluang shootout dihitung dari peluang seri 90 menit dan simulasi extra time 30 
 
 ```text
 world-cup-predict/
+├── DESIGN.md                      # Ferrari-inspired visual source of truth
 ├── app.py                         # Entry point dashboard Streamlit
 ├── artifacts/
 │   ├── evaluation.json           # Metrik, folds, fallback, dan limitation
@@ -376,7 +377,7 @@ Dashboard memakai layout responsive, visible keyboard focus, reduced-motion supp
 .venv/bin/python -m pytest
 ```
 
-Suite saat ini mencakup 13 tests untuk:
+Suite saat ini mencakup 14 tests untuk:
 
 - feature contract dan forbidden columns;
 - chronological fold ordering;
@@ -387,6 +388,7 @@ Suite saat ini mencakup 13 tests untuk:
 - artifact schema, orientasi, dan probability drift;
 - agregasi tepat 48 tim dan 1.248 pemain;
 - navigasi seluruh halaman Streamlit;
+- kontrak token Ferrari antara `DESIGN.md`, CSS, dan Plotly;
 - CLI training dari root repository.
 
 Pemeriksaan tambahan yang berguna:
@@ -412,16 +414,21 @@ Validasi akhir memastikan:
 
 ## Desain dashboard
 
-Arah visual memakai konsep **meja analisis siaran**:
+Arah visual memakai sistem cinematic editorial dari preset Ferrari yang dipasang
+melalui `getdesign` dan didokumentasikan di [`DESIGN.md`](DESIGN.md):
 
-- broadcast navy `#071B33` sebagai warna struktur;
-- pitch teal `#0A7C75` untuk kubu home dan probabilitas utama;
-- signal amber `#F4B942` untuk kubu away serta sinyal penting;
-- mist `#EAF1F5` dan paper white `#FCFEFF` untuk area data;
-- matriks skor sebagai papan taktik di tengah dua kubu;
-- Ubuntu Sans, Ubuntu, dan Ubuntu Mono sebagai font offline.
+- near-black canvas `#181818` sebagai panggung utama;
+- Rosso Corsa `#DA291C` sebagai satu-satunya aksen brand yang dipakai terbatas;
+- elevated graphite `#303030` untuk technical surfaces;
+- pure white `#FFFFFF` dan telemetry gray `#969696` untuk hierarki data;
+- sharp corners, hairline separators, dan spacing ladder berbasis 8px;
+- timing line merah yang membelah hero matchup dan menuju matriks skor;
+- top navigation 64px menggantikan sidebar dashboard generik;
+- FerrariSans digunakan bila tersedia, dengan Ubuntu Sans offline sebagai fallback
+  berlisensi karena FerrariSans tidak didistribusikan oleh proyek.
 
-Lisensi font yang dibundel tersedia di [`assets/fonts/LICENSE.txt`](assets/fonts/LICENSE.txt).
+Lisensi font fallback yang dibundel tersedia di
+[`assets/fonts/LICENSE.txt`](assets/fonts/LICENSE.txt).
 
 ## Keterbatasan
 

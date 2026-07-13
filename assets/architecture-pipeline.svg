@@ -4,34 +4,35 @@
 
   <defs>
     <marker id="arrow-teal" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L12,6 L0,12 z" fill="#0A7C75"/>
+      <path d="M0,0 L12,6 L0,12 z" fill="#da291c"/>
     </marker>
     <marker id="arrow-amber" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L12,6 L0,12 z" fill="#D28A0A"/>
+      <path d="M0,0 L12,6 L0,12 z" fill="#969696"/>
     </marker>
     <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
-      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#071B33" flood-opacity="0.11"/>
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.1"/>
     </filter>
     <style>
-      .heading { font: 700 34px Ubuntu, Arial, sans-serif; fill: #071B33; letter-spacing: -0.5px; }
-      .subheading { font: 400 17px Ubuntu, Arial, sans-serif; fill: #526779; }
-      .eyebrow { font: 700 14px 'Ubuntu Mono', monospace; fill: #0A7C75; letter-spacing: 2px; }
-      .node-title { font: 700 20px Ubuntu, Arial, sans-serif; fill: #071B33; }
-      .node-copy { font: 400 15px Ubuntu, Arial, sans-serif; fill: #526779; }
-      .node-title-inverse { font: 700 20px Ubuntu, Arial, sans-serif; fill: #FCFEFF; }
-      .node-copy-inverse { font: 400 15px Ubuntu, Arial, sans-serif; fill: #CAD7DF; }
-      .step { font: 700 13px 'Ubuntu Mono', monospace; fill: #FCFEFF; }
-      .artifact { font: 700 17px 'Ubuntu Mono', monospace; fill: #071B33; }
-      .artifact-copy { font: 400 14px Ubuntu, Arial, sans-serif; fill: #526779; }
-      .flow { fill: none; stroke: #0A7C75; stroke-width: 4; marker-end: url(#arrow-teal); }
-      .branch { fill: none; stroke: #D28A0A; stroke-width: 3; marker-end: url(#arrow-amber); }
-      .guide { fill: none; stroke: #CAD7DF; stroke-width: 1; stroke-dasharray: 5 8; }
+      .heading { font: 500 34px Ubuntu, Arial, sans-serif; fill: #ffffff; letter-spacing: -0.5px; }
+      .subheading { font: 400 17px Ubuntu, Arial, sans-serif; fill: #969696; }
+      .eyebrow { font: 700 14px 'Ubuntu Mono', monospace; fill: #da291c; letter-spacing: 2px; }
+      .node-title { font: 700 20px Ubuntu, Arial, sans-serif; fill: #181818; }
+      .node-copy { font: 400 15px Ubuntu, Arial, sans-serif; fill: #666666; }
+      .node-title-inverse { font: 500 20px Ubuntu, Arial, sans-serif; fill: #ffffff; }
+      .node-copy-inverse { font: 400 15px Ubuntu, Arial, sans-serif; fill: #969696; }
+      .step { font: 700 13px 'Ubuntu Mono', monospace; fill: #ffffff; }
+      .step-dark { font: 700 13px 'Ubuntu Mono', monospace; fill: #181818; }
+      .artifact { font: 700 17px 'Ubuntu Mono', monospace; fill: #181818; }
+      .artifact-copy { font: 400 14px Ubuntu, Arial, sans-serif; fill: #666666; }
+      .flow { fill: none; stroke: #da291c; stroke-width: 4; marker-end: url(#arrow-teal); }
+      .branch { fill: none; stroke: #969696; stroke-width: 3; marker-end: url(#arrow-amber); }
+      .guide { fill: none; stroke: #303030; stroke-width: 1; stroke-dasharray: 5 8; }
     </style>
   </defs>
 
-  <rect width="1600" height="720" fill="#F8FBFC"/>
-  <path d="M800 0 V720" stroke="#0A7C75" stroke-opacity="0.045" stroke-width="3"/>
-  <path d="M0 360 H1600" stroke="#0A7C75" stroke-opacity="0.035" stroke-width="2"/>
+  <rect width="1600" height="720" fill="#181818"/>
+  <path d="M800 0 V720" stroke="#da291c" stroke-opacity="0.08" stroke-width="3"/>
+  <path d="M0 360 H1600" stroke="#ffffff" stroke-opacity="0.04" stroke-width="2"/>
 
   <text x="64" y="62" class="eyebrow">LEAKAGE-SAFE / LOCAL-FIRST</text>
   <text x="64" y="106" class="heading">Dari raw data menuju meja analisis</text>
@@ -44,8 +45,8 @@
   <path d="M1275 260 H1312" class="flow"/>
 
   <g filter="url(#shadow)">
-    <rect x="55" y="180" width="200" height="160" rx="6" fill="#071B33"/>
-    <circle cx="88" cy="213" r="17" fill="#0A7C75"/>
+    <rect x="55" y="180" width="200" height="160" fill="#303030"/>
+    <circle cx="88" cy="213" r="17" fill="#da291c"/>
     <text x="88" y="218" text-anchor="middle" class="step">01</text>
     <text x="80" y="260" class="node-title-inverse">Raw CSV lokal</text>
     <text x="80" y="290" class="node-copy-inverse">Pertandingan, tim,</text>
@@ -53,8 +54,8 @@
   </g>
 
   <g filter="url(#shadow)">
-    <rect x="298" y="180" width="200" height="160" rx="6" fill="#FCFEFF" stroke="#CAD7DF" stroke-width="2"/>
-    <circle cx="331" cy="213" r="17" fill="#0A7C75"/>
+    <rect x="298" y="180" width="200" height="160" fill="#ffffff" stroke="#d2d2d2" stroke-width="2"/>
+    <circle cx="331" cy="213" r="17" fill="#da291c"/>
     <text x="331" y="218" text-anchor="middle" class="step">02</text>
     <text x="323" y="260" class="node-title">Validasi schema</text>
     <text x="323" y="290" class="node-copy">File wajib, tipe data,</text>
@@ -62,8 +63,8 @@
   </g>
 
   <g filter="url(#shadow)">
-    <rect x="541" y="180" width="216" height="160" rx="6" fill="#FCFEFF" stroke="#CAD7DF" stroke-width="2"/>
-    <circle cx="574" cy="213" r="17" fill="#0A7C75"/>
+    <rect x="541" y="180" width="216" height="160" fill="#ffffff" stroke="#d2d2d2" stroke-width="2"/>
+    <circle cx="574" cy="213" r="17" fill="#da291c"/>
     <text x="574" y="218" text-anchor="middle" class="step">03</text>
     <text x="566" y="260" class="node-title">Fitur kronologis</text>
     <text x="566" y="290" class="node-copy">Rolling form, Elo,</text>
@@ -71,8 +72,8 @@
   </g>
 
   <g filter="url(#shadow)">
-    <rect x="800" y="180" width="216" height="160" rx="6" fill="#FCFEFF" stroke="#CAD7DF" stroke-width="2"/>
-    <circle cx="833" cy="213" r="17" fill="#0A7C75"/>
+    <rect x="800" y="180" width="216" height="160" fill="#ffffff" stroke="#d2d2d2" stroke-width="2"/>
+    <circle cx="833" cy="213" r="17" fill="#da291c"/>
     <text x="833" y="218" text-anchor="middle" class="step">04</text>
     <text x="825" y="260" class="node-title">Chronological CV</text>
     <text x="825" y="290" class="node-copy">Tiga expanding-window</text>
@@ -80,8 +81,8 @@
   </g>
 
   <g filter="url(#shadow)">
-    <rect x="1059" y="180" width="216" height="160" rx="6" fill="#FCFEFF" stroke="#CAD7DF" stroke-width="2"/>
-    <circle cx="1092" cy="213" r="17" fill="#0A7C75"/>
+    <rect x="1059" y="180" width="216" height="160" fill="#ffffff" stroke="#d2d2d2" stroke-width="2"/>
+    <circle cx="1092" cy="213" r="17" fill="#da291c"/>
     <text x="1092" y="218" text-anchor="middle" class="step">05</text>
     <text x="1084" y="260" class="node-title">Model probabilistik</text>
     <text x="1084" y="290" class="node-copy">Skor, count events,</text>
@@ -89,9 +90,9 @@
   </g>
 
   <g filter="url(#shadow)">
-    <rect x="1318" y="180" width="226" height="160" rx="6" fill="#0A7C75"/>
-    <circle cx="1351" cy="213" r="17" fill="#F4B942"/>
-    <text x="1351" y="218" text-anchor="middle" class="step" fill="#071B33">06</text>
+    <rect x="1318" y="180" width="226" height="160" fill="#da291c"/>
+    <circle cx="1351" cy="213" r="17" fill="#ffffff"/>
+    <text x="1351" y="218" text-anchor="middle" class="step-dark">06</text>
     <text x="1343" y="260" class="node-title-inverse">Validator artifact</text>
     <text x="1343" y="290" class="node-copy-inverse">Finite, non-negative,</text>
     <text x="1343" y="313" class="node-copy-inverse">dan total selalu 100%</text>
@@ -105,21 +106,21 @@
   <path d="M64 434 H1544" class="guide"/>
 
   <g filter="url(#shadow)">
-    <rect x="940" y="434" width="216" height="116" rx="6" fill="#FFF7E3" stroke="#F4B942" stroke-width="2"/>
+    <rect x="940" y="434" width="216" height="116" fill="#ffffff" stroke="#da291c" stroke-width="2"/>
     <text x="965" y="476" class="artifact">predictions.json</text>
     <text x="965" y="505" class="artifact-copy">Matriks, H/D/A, advance,</text>
     <text x="965" y="527" class="artifact-copy">shootout, event distributions</text>
   </g>
 
   <g filter="url(#shadow)">
-    <rect x="1186" y="434" width="216" height="116" rx="6" fill="#FFF7E3" stroke="#F4B942" stroke-width="2"/>
+    <rect x="1186" y="434" width="216" height="116" fill="#ffffff" stroke="#da291c" stroke-width="2"/>
     <text x="1211" y="476" class="artifact">evaluation.json</text>
     <text x="1211" y="505" class="artifact-copy">Folds, metrics, fallback,</text>
     <text x="1211" y="527" class="artifact-copy">versions, limitations</text>
   </g>
 
   <g filter="url(#shadow)">
-    <rect x="1432" y="434" width="112" height="116" rx="6" fill="#EAF1F5" stroke="#CAD7DF" stroke-width="2"/>
+    <rect x="1432" y="434" width="112" height="116" fill="#f7f7f7" stroke="#d2d2d2" stroke-width="2"/>
     <text x="1453" y="472" class="artifact" font-size="15">joblib</text>
     <text x="1453" y="501" class="artifact-copy">Binary</text>
     <text x="1453" y="523" class="artifact-copy">lokal</text>
@@ -127,7 +128,7 @@
 
   <path d="M155 340 V560" class="branch"/>
   <g filter="url(#shadow)">
-    <rect x="55" y="566" width="290" height="98" rx="6" fill="#FCFEFF" stroke="#CAD7DF" stroke-width="2"/>
+    <rect x="55" y="566" width="290" height="98" fill="#ffffff" stroke="#d2d2d2" stroke-width="2"/>
     <text x="80" y="605" class="artifact">Statistik tim &amp; pemain</text>
     <text x="80" y="634" class="artifact-copy">48 tim · 1.248 pemain · raw lokal</text>
   </g>
@@ -137,7 +138,7 @@
   <path d="M1294 550 V615 H1080" class="flow"/>
 
   <g filter="url(#shadow)">
-    <rect x="750" y="566" width="330" height="98" rx="6" fill="#071B33"/>
+    <rect x="750" y="566" width="330" height="98" fill="#da291c"/>
     <text x="780" y="605" class="node-title-inverse">Dashboard Streamlit</text>
     <text x="780" y="634" class="node-copy-inverse">Prediksi · Tim · Pemain · Evaluasi</text>
   </g>
