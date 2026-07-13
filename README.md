@@ -117,22 +117,11 @@ Artifact repository dibuat dengan data cutoff **12 Juli 2026** dan random seed t
 
 ## Arsitektur pipeline
 
-```mermaid
-flowchart LR
-    A[Raw CSV lokal] --> B[Validasi schema]
-    B --> C[Rekonstruksi kronologis]
-    C --> D[Rolling form, Elo, ranking, squad, venue]
-    D --> E[Expanding-window CV]
-    E --> F[Model skor dan event]
-    F --> G[Validator probabilitas]
-    G --> H[predictions.json]
-    G --> I[evaluation.json]
-    G --> J[Model binary lokal]
-    H --> K[Dashboard Streamlit]
-    I --> K
-    A --> L[Statistik tim dan pemain]
-    L --> K
-```
+<p align="center">
+  <img src="assets/architecture-pipeline.svg" alt="Diagram arsitektur pipeline: raw CSV lokal melewati validasi schema, rekonstruksi fitur kronologis, expanding-window cross-validation, model probabilistik, validator artifact, lalu predictions dan evaluation JSON ditampilkan bersama statistik tim dan pemain di dashboard Streamlit." width="100%">
+</p>
+
+Diagram menggunakan SVG lokal sehingga tetap tampil tanpa renderer Mermaid atau JavaScript tambahan.
 
 ### Perlindungan terhadap leakage
 
