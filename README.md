@@ -31,3 +31,12 @@ yang memanggil pipeline identik:
 Hasil yang aman dipublikasikan ditulis ke `artifacts/predictions.json`,
 `artifacts/evaluation.json`, dan `artifacts/metrics_summary.csv`. Model binary tetap
 berada di `artifacts/models/` dan diabaikan Git.
+
+Jalankan dashboard lokal setelah artifact tersedia:
+
+```bash
+.venv/bin/streamlit run app.py
+```
+
+Halaman Prediksi dan Evaluasi dapat dibuka hanya dengan artifact repository.
+Halaman Tim dan Pemain memerlukan raw CSV lokal di folder `data/`.
