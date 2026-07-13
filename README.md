@@ -21,5 +21,13 @@ Raw CSV tidak disertakan di repository. Letakkan sumber data lokal di folder `da
 
 ## Menjalankan
 
-Perintah training notebook dan dashboard akan tersedia setelah fase modeling selesai.
+Jalankan training melalui notebook `notebooks/01_training.ipynb`, atau gunakan CLI
+yang memanggil pipeline identik:
 
+```bash
+.venv/bin/python scripts/train.py
+```
+
+Hasil yang aman dipublikasikan ditulis ke `artifacts/predictions.json`,
+`artifacts/evaluation.json`, dan `artifacts/metrics_summary.csv`. Model binary tetap
+berada di `artifacts/models/` dan diabaikan Git.

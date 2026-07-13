@@ -1,0 +1,373 @@
+{
+  "random_seed": 20260713,
+  "data_cutoff": "2026-07-12",
+  "sample_size_90_minutes": 92,
+  "completed_matches_available": 100,
+  "excluded_from_score_target": {
+    "AET": 4,
+    "Penalties": 4
+  },
+  "baseline": "Smoothed tournament-wide home/away scoring rate",
+  "score": {
+    "sample_size": 92,
+    "folds": [
+      {
+        "fold": 1,
+        "train_matches": 44,
+        "validation_matches": 16,
+        "train_end": "2026-06-22",
+        "validation_start": "2026-06-23",
+        "rho": -0.17999438193480058,
+        "models": {
+          "smoothed_baseline": {
+            "exact_score_log_loss": 3.2562607429926143,
+            "outcome_log_loss": 1.0613856989430208
+          },
+          "regularized_poisson": {
+            "exact_score_log_loss": 3.066770907215713,
+            "outcome_log_loss": 0.799997413177246
+          },
+          "poisson_dc_blend": {
+            "exact_score_log_loss": 3.0528516349952692,
+            "outcome_log_loss": 0.7997597497114277
+          },
+          "dixon_coles": {
+            "exact_score_log_loss": 3.044726730961642,
+            "outcome_log_loss": 0.8010350355473042
+          }
+        }
+      },
+      {
+        "fold": 2,
+        "train_matches": 60,
+        "validation_matches": 16,
+        "train_end": "2026-06-26",
+        "validation_start": "2026-06-26",
+        "rho": -0.17999438193480058,
+        "models": {
+          "smoothed_baseline": {
+            "exact_score_log_loss": 3.445264845868927,
+            "outcome_log_loss": 1.2096306340920864
+          },
+          "regularized_poisson": {
+            "exact_score_log_loss": 2.9532627729508434,
+            "outcome_log_loss": 0.8437070082217561
+          },
+          "poisson_dc_blend": {
+            "exact_score_log_loss": 2.946312299181203,
+            "outcome_log_loss": 0.8389674592437515
+          },
+          "dixon_coles": {
+            "exact_score_log_loss": 2.9454345230212757,
+            "outcome_log_loss": 0.8361329523581909
+          }
+        }
+      },
+      {
+        "fold": 3,
+        "train_matches": 76,
+        "validation_matches": 16,
+        "train_end": "2026-07-01",
+        "validation_start": "2026-07-01",
+        "rho": -0.17999438193480058,
+        "models": {
+          "smoothed_baseline": {
+            "exact_score_log_loss": 2.938815629895279,
+            "outcome_log_loss": 0.9330383193337785
+          },
+          "regularized_poisson": {
+            "exact_score_log_loss": 2.7506085633632056,
+            "outcome_log_loss": 0.6653060493487933
+          },
+          "poisson_dc_blend": {
+            "exact_score_log_loss": 2.765098467448162,
+            "outcome_log_loss": 0.6865751544719672
+          },
+          "dixon_coles": {
+            "exact_score_log_loss": 2.7810184948002874,
+            "outcome_log_loss": 0.7085576402673066
+          }
+        }
+      }
+    ],
+    "aggregate": {
+      "smoothed_baseline": {
+        "exact_score_log_loss": 3.21344707291894,
+        "outcome_log_loss": 1.0680182174562953
+      },
+      "regularized_poisson": {
+        "exact_score_log_loss": 2.9235474145099207,
+        "outcome_log_loss": 0.7696701569159319
+      },
+      "poisson_dc_blend": {
+        "exact_score_log_loss": 2.921420800541545,
+        "outcome_log_loss": 0.7751007878090488
+      },
+      "dixon_coles": {
+        "exact_score_log_loss": 2.923726582927735,
+        "outcome_log_loss": 0.7819085427242672
+      }
+    },
+    "selected_model": "poisson_dc_blend",
+    "candidate_winner": "poisson_dc_blend",
+    "improvement_vs_baseline": 0.2920262723773952,
+    "fallback_used": false,
+    "fallback_reason": null
+  },
+  "events": {
+    "shots": {
+      "folds": [
+        {
+          "fold": 1,
+          "baseline": 3.0747630516131634,
+          "poisson": 2.973997603573693,
+          "negative_binomial": 3.015864133890519
+        },
+        {
+          "fold": 2,
+          "baseline": 3.4746994190179934,
+          "poisson": 3.177380042353395,
+          "negative_binomial": 3.0047881748641276
+        },
+        {
+          "fold": 3,
+          "baseline": 3.326477558726315,
+          "poisson": 2.9962415560364657,
+          "negative_binomial": 3.006459058358931
+        }
+      ],
+      "aggregate_nll": {
+        "baseline": 3.2919800097858243,
+        "poisson": 3.049206400654518,
+        "negative_binomial": 3.009037122371193
+      },
+      "selected_model": "regularized_negative_binomial",
+      "fallback_used": false,
+      "fallback_reason": null
+    },
+    "shots_on_target": {
+      "folds": [
+        {
+          "fold": 1,
+          "baseline": 2.5540542876064736,
+          "poisson": 2.063776444593038,
+          "negative_binomial": 2.265528346565452
+        },
+        {
+          "fold": 2,
+          "baseline": 2.2275895728765533,
+          "poisson": 2.0277388454711747,
+          "negative_binomial": 2.0755162308064232
+        },
+        {
+          "fold": 3,
+          "baseline": 2.4360474099962968,
+          "poisson": 2.1713779559563124,
+          "negative_binomial": 2.2619833730827357
+        }
+      ],
+      "aggregate_nll": {
+        "baseline": 2.4058970901597747,
+        "poisson": 2.0876310820068418,
+        "negative_binomial": 2.201009316818203
+      },
+      "selected_model": "regularized_poisson",
+      "fallback_used": false,
+      "fallback_reason": null
+    },
+    "corners": {
+      "folds": [
+        {
+          "fold": 1,
+          "baseline": 2.150815841568172,
+          "poisson": 1.9691449078155694,
+          "negative_binomial": 2.147310830879099
+        },
+        {
+          "fold": 2,
+          "baseline": 2.6519748938151713,
+          "poisson": 2.471269122209058,
+          "negative_binomial": 2.3430260582203184
+        },
+        {
+          "fold": 3,
+          "baseline": 2.521885644789007,
+          "poisson": 2.3106780323869196,
+          "negative_binomial": 2.3419629431361115
+        }
+      ],
+      "aggregate_nll": {
+        "baseline": 2.4415587933907834,
+        "poisson": 2.2503640208038487,
+        "negative_binomial": 2.277433277411843
+      },
+      "selected_model": "regularized_poisson",
+      "fallback_used": false,
+      "fallback_reason": null
+    },
+    "fouls": {
+      "folds": [
+        {
+          "fold": 1,
+          "baseline": 2.326364768611246,
+          "poisson": 2.533285654618753,
+          "negative_binomial": 2.5539414137652927
+        },
+        {
+          "fold": 2,
+          "baseline": 2.9886690956697683,
+          "poisson": 3.183554001533837,
+          "negative_binomial": 3.0970417381794038
+        },
+        {
+          "fold": 3,
+          "baseline": 2.705755081467571,
+          "poisson": 2.659446504114925,
+          "negative_binomial": 2.6626211951815915
+        }
+      ],
+      "aggregate_nll": {
+        "baseline": 2.673596315249528,
+        "poisson": 2.7920953867558382,
+        "negative_binomial": 2.771201449042096
+      },
+      "selected_model": "smoothed_baseline",
+      "fallback_used": true,
+      "fallback_reason": "Regresi count tidak mengungguli baseline likelihood."
+    },
+    "offsides": {
+      "folds": [
+        {
+          "fold": 1,
+          "baseline": 1.4097314265050191,
+          "poisson": 1.3853756109567086,
+          "negative_binomial": 1.3916723472781067
+        },
+        {
+          "fold": 2,
+          "baseline": 1.646120055327744,
+          "poisson": 1.671161245302227,
+          "negative_binomial": 1.6699514460794929
+        },
+        {
+          "fold": 3,
+          "baseline": 1.6384381440350797,
+          "poisson": 1.6217695459569261,
+          "negative_binomial": 1.6196279317969444
+        }
+      ],
+      "aggregate_nll": {
+        "baseline": 1.5647632086226142,
+        "poisson": 1.5594354674052873,
+        "negative_binomial": 1.5604172417181814
+      },
+      "selected_model": "regularized_poisson",
+      "fallback_used": false,
+      "fallback_reason": null
+    },
+    "yellow_cards": {
+      "folds": [
+        {
+          "fold": 1,
+          "baseline": 1.403474483860762,
+          "poisson": 1.393216931813184,
+          "negative_binomial": 1.3968867464086474
+        },
+        {
+          "fold": 2,
+          "baseline": 1.4452312824257383,
+          "poisson": 1.4011210412262252,
+          "negative_binomial": 1.4031117830653894
+        },
+        {
+          "fold": 3,
+          "baseline": 1.4874531838764828,
+          "poisson": 1.4446892744263904,
+          "negative_binomial": 1.440052674276749
+        }
+      ],
+      "aggregate_nll": {
+        "baseline": 1.4453863167209944,
+        "poisson": 1.4130090824885997,
+        "negative_binomial": 1.4133504012502618
+      },
+      "selected_model": "regularized_poisson",
+      "fallback_used": false,
+      "fallback_reason": null
+    },
+    "saves": {
+      "folds": [
+        {
+          "fold": 1,
+          "baseline": 1.9379687537849033,
+          "poisson": 1.8583287767861434,
+          "negative_binomial": 2.0684940723420167
+        },
+        {
+          "fold": 2,
+          "baseline": 2.2625584783671053,
+          "poisson": 2.1775098742675913,
+          "negative_binomial": 2.0629178090377738
+        },
+        {
+          "fold": 3,
+          "baseline": 2.0747951759258645,
+          "poisson": 1.966235921958202,
+          "negative_binomial": 2.029935526874793
+        }
+      ],
+      "aggregate_nll": {
+        "baseline": 2.0917741360259576,
+        "poisson": 2.0006915243373125,
+        "negative_binomial": 2.0537824694181945
+      },
+      "selected_model": "regularized_poisson",
+      "fallback_used": false,
+      "fallback_reason": null
+    }
+  },
+  "possession": {
+    "folds": [
+      {
+        "fold": 1,
+        "ridge_mae": 6.37034632596089,
+        "baseline_mae": 8.117647058823529
+      },
+      {
+        "fold": 2,
+        "ridge_mae": 8.533458706605298,
+        "baseline_mae": 10.029411764705882
+      },
+      {
+        "fold": 3,
+        "ridge_mae": 8.216130572851181,
+        "baseline_mae": 10.194444444444445
+      }
+    ],
+    "ridge_mae": 7.706645201805789,
+    "baseline_mae": 9.447167755991286,
+    "fallback_used": false,
+    "fallback_reason": null
+  },
+  "rare_events": {
+    "red_card_team_probability": 0.06363636363636363,
+    "var_match_probability": 0.12727272727272726,
+    "observed_red_cards": 13,
+    "observed_var_reviews": 13,
+    "confidence": "low",
+    "method": "Beta smoothing; tidak ada estimasi kemampuan individual tim."
+  },
+  "versions": {
+    "python": "3.13.4",
+    "numpy": "2.5.1",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.9.0",
+    "statsmodels": "0.14.6"
+  },
+  "limitations": [
+    "Hanya satu turnamen sintetis/terbatas dengan 92 label skor 90 menit.",
+    "Fitur form awal turnamen memakai prior netral karena tidak ada histori sebelum cutoff.",
+    "Statistik laga AET/penalti dinormalisasi ke ekuivalen 90 menit untuk rolling form.",
+    "Tidak ada model pemain individual atau kekuatan penalti per tim pada versi pertama."
+  ]
+}
